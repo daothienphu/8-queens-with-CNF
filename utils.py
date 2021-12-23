@@ -90,11 +90,20 @@ def find_possible_solution(given_queens_data, cnf_cache, verbose=False):
     queens_set = given_queens_data[1]
     clauses = given_queens_data[2]
     input_list = given_queens_data[3]
+    byColumns = False
+    if given_queens_data[4]:
+        columns = given_queens_data[4]
+        byColumns = True
     if verbose:
         print()
         
     while iterations < 8:
         current_input=choice(input_list)
+        if byColumns:
+            col_index=choice(columns)
+            columns.remove(col_index)
+            reduced_input_list = [j for j in input_list if col_index * 8 <= j and j < col_index*8 + 7]
+            current_input=choice(reduced_input_list)    
         queens_set+=[current_input]
         if verbose:
             print("SETTING " + str(current_input))
@@ -133,7 +142,8 @@ def set_random_queens_by_col(cnf_cache, verbose=False):
         #remove the column from the column list
         columns.remove(col_index)
         #put a queen randomly in the selected column
-        current_input=input_list[(col_index*8)+randint(0,7)]
+        reduced_input_list = [j for j in input_list if col_index * 8 <= j and j < col_index*8 + 7]
+        current_input=choice(reduced_input_list)
         queens_set+=[current_input]
         if verbose:
             print("SETTING " + str(current_input))
@@ -147,4 +157,4 @@ def set_random_queens_by_col(cnf_cache, verbose=False):
             print(input_list,end="\n\n\n")
 
     print("THE GIVEN INPUT IS:", *queens_set)
-    return (iterations, queens_set, clauses, input_list)
+    return (iterations, queens_set, clauses, input_list, columns)
