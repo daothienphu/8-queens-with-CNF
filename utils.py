@@ -73,8 +73,8 @@ def set_random_queens(cnf_cache, verbose=False):
         queens_set+=[current_input]
         if verbose:
             print("SETTING " + str(current_input))
-        for i in get_restrictions_from_input(current_input, cnf_cache):
-            clauses += [[i]]
+        for j in get_restrictions_from_input(current_input, cnf_cache):
+            clauses += [[j]]
         input_list = find_satisfied_set(clauses)
         if verbose:
             print("Clauses: ")
@@ -115,3 +115,36 @@ def find_possible_solution(given_queens_data, cnf_cache, verbose=False):
     else:
         print("CANNOT FIND SOLUTION TO THE 8 QUEENS PROBLEM WITH THE GIVEN INPUT.\n")
         return False
+
+def set_random_queens_by_col(cnf_cache, verbose=False):
+    #set queens by column such that no two queen is on the same column
+    input_list=[]
+    for i in range(64):
+        input_list+=[i+1]
+    clauses = [input_list]
+    queens_set=[]
+    iterations=randint(1,7)
+    #put all column indexes in a list
+    columns=[i for i in range (8)]
+    print("\n\n\nSETTING",iterations,"QUEENS ON THE BOARD")
+    for i in range(iterations):
+        #get a random column
+        col_index=choice(columns)
+        #remove the column from the column list
+        columns.remove(col_index)
+        #put a queen randomly in the selected column
+        current_input=input_list[(col_index*8)+randint(0,7)]
+        queens_set+=[current_input]
+        if verbose:
+            print("SETTING " + str(current_input))
+        for j in get_restrictions_from_input(current_input, cnf_cache):
+            clauses += [[j]]
+        input_list = find_satisfied_set(clauses)
+        if verbose:
+            print("Clauses: ")
+            print(clauses,end="\n\n")
+            print("Input_list: ")
+            print(input_list,end="\n\n\n")
+
+    print("THE GIVEN INPUT IS:", *queens_set)
+    return (iterations, queens_set, clauses, input_list)
