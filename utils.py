@@ -91,7 +91,7 @@ def find_possible_solution(given_queens_data, cnf_cache, verbose=False):
     clauses = given_queens_data[2]
     input_list = given_queens_data[3]
     byColumns = False
-    if given_queens_data[4]:
+    if len(given_queens_data) == 5:
         columns = given_queens_data[4]
         byColumns = True
     if verbose:
