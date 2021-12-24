@@ -2,11 +2,11 @@ import random
 import numpy as np
 import tensorflow as tf
 import math
-with open("test.txt", "r") as file: 
+with open("input.txt", "r") as file: 
     m = int(file.readline())
-    line = file.readline()
 #     print(m)
-    queens_pos = list(map(lambda el: list(map(int,el[1:-1].split(","))),line.split(" ")))
+    #queens_pos = list(map(lambda el: list(map(int,el[1:-1].split(","))),line.split(" ")))
+    queens_pos = [[*map(int, q.split(", "))] for q in file.readline().strip()[1:-1].split(") (")]
 queens_pos
 
 def attacked_queens_pairs(seqs):
