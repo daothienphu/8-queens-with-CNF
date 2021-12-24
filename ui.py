@@ -88,12 +88,8 @@ class UI:
         self.app.exec_()
 
     def set_queen_at(self, position):
-        self.app.closeAllWindows()
         self.window.set_queen_at(position)
         self.window.show_board()
-        self.app.exec_()
         
-        
-
 if __name__ == '__main__':
     ui = UI(62, 25)
