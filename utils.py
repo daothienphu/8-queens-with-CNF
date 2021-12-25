@@ -3,7 +3,7 @@ from typing import List
 from pysat.formula import CNF
 from pysat.solvers import Lingeling
 
-def generate_cnf(size, verbose=False):
+def generate_cnf_(size, verbose=False):
     restrictions = []
     for i in range(size*size):
         current_restriction = [(i+1)*-1]
@@ -16,17 +16,6 @@ def generate_cnf(size, verbose=False):
             print(i)
     return restrictions
 
-def generate_cnf_from_input(input:int,restrictions:List):
-    if (type(restrictions[input-1])==str):
-        return restrictions
-    restrictions[input-1]="Removed as input "+str(input)
-    for idx,i in enumerate(restrictions):
-        if (type(i)==str):
-            continue
-        if (input*-1) in i:
-            restrictions[idx]="Attacked by "+str(input)
-    return restrictions
-
 def get_restrictions_from_input(input,restrictions):
     return restrictions[input-1]
 
@@ -34,6 +23,9 @@ def find_satisfied_set(restrictions):
     chessboard = CNF()
     for i in restrictions:
         chessboard.append(i)
+    [1, 2] and [-1, -2] and [-1 or 2]
+    -1, 2
+
     r = ''
     with Lingeling(bootstrap_with=chessboard.clauses, with_proof=False) as l:
         r = l.solve()
@@ -41,7 +33,8 @@ def find_satisfied_set(restrictions):
             #print(f"proof it's not satisfiable: \n{l.get_proof()}")
             return [0] 
         else:
-            m = l.get_model()
+            m = l.get_model() 
+
             n = []
             #print(m)
             for i in m:
@@ -49,10 +42,6 @@ def find_satisfied_set(restrictions):
                     n+=[i]
             #print(*n)
     return n
-
-def printc(cl):
-    for i in cl:
-        print(i)
 
 def cache_all_cnf_clauses(verbose=False):
     if verbose:
@@ -158,3 +147,5 @@ def set_random_queens_by_col(cnf_cache, verbose=False):
 
     print("THE GIVEN INPUT IS:", *queens_set)
     return (iterations, queens_set, clauses, input_list, columns)
+
+    
