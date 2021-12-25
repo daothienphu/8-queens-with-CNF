@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 import sys
 from time import sleep
 from random import randint 
@@ -8,9 +9,15 @@ class Window(QMainWindow):
     def __init__(self, *queens):
         #create window
         super().__init__()
+
+        #get screen dimensions
+        screen_resolution = QDesktopWidget().screenGeometry()
+        screen_width = screen_resolution.width()
+        screen_height = screen_resolution.height()
+
         self.acceptDrops()
         self.setWindowTitle("8 Queens Problem Solver")
-        self.setGeometry(1920//2 - 300, 1080//2 - 350, 600, 700)
+        self.setGeometry((screen_width//2 - 300), (screen_height//2) - 350, 600, 700)
         
         #create widget instance
         self.widget = QWidget()
@@ -26,15 +33,29 @@ class Window(QMainWindow):
         #create button
         button = QPushButton('Input queens', self)
         button.setToolTip('Press this button to input the queens\' locatons')
-        button.move(275,650)
+        #button.move(275,650)
+        #button.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
+        #button.setGeometry(275, 650, 150, 50)
+        button.setFixedSize(150, 25)
         button.clicked.connect(self.import_queens)
 
+        #create button for searching
+        button2 = QPushButton('Solve', self)
+        button2.setToolTip('Press this button to solve the 8 queens problem')
+        button2.setFixedSize(150, 25)
+        #button2.clicked.connect(self.solve)
+
         #create layout with only the chessboard
-        layout_box = QHBoxLayout(self.widget)
+        layout_box = QVBoxLayout(self.widget)
         layout_box.setContentsMargins(0, 0, 0, 0)
+        layout_box.addStretch()
         layout_box.addWidget(self.board)
-        #layout_box.setAlignment() set alignment vertical then add the button underneath
-        #layout_box.addWidget(button)
+        #set alignment vertical then add the button underneath
+        layout_box.addWidget(button)
+        layout_box.addWidget(button2)
+        layout_box.setAlignment(button,Qt.AlignCenter)
+        layout_box.setAlignment(button2,Qt.AlignCenter)
+        layout_box.addStretch()
         
         self.queens_counter = 0
         self.pre_create_queens()
@@ -74,10 +95,10 @@ class Window(QMainWindow):
         i = position // 8
         if (i & 1 != j & 1):
             self.queens_white[self.queens_counter].setFixedSize(75, 75)
-            self.queens_white[self.queens_counter].move(j * 75, 50 + i * 75)
+            self.queens_white[self.queens_counter].move(j * 75,20+  i * 75)
         else:
             self.queens_black[self.queens_counter].setFixedSize(75, 75)
-            self.queens_black[self.queens_counter].move(j * 75, 50 + i * 75)
+            self.queens_black[self.queens_counter].move(j * 75,20+ i * 75)
         #50 + j* 75 is because the chessboard size is 600x600, but the window size is 600x700
         self.queens_counter += 1
 
