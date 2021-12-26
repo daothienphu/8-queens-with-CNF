@@ -1,15 +1,19 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from PyQt5 import QtTest
 import sys
 from time import sleep
 from random import randint 
- 
+from A_star import *
+
 class Window(QMainWindow):
-    def __init__(self, *queens):
+    def __init__(self):
         #create window
         super().__init__()
-
+        #queens = (('38, 48, 49, 61',),)
+        # self.queens = [*map(int,queens[0][0].split(", "))]
+        # self.queens = [*map(lambda x: x-1, self.queens)]
         #get screen dimensions
         screen_resolution = QDesktopWidget().screenGeometry()
         screen_width = screen_resolution.width()
@@ -24,7 +28,7 @@ class Window(QMainWindow):
         self.setCentralWidget(self.widget)
         
         #create 
-        pixmap1 = QPixmap('chessboard.png')
+        pixmap1 = QPixmap('..\\resource\\chessboard.png')
         pixmap1 = pixmap1.scaledToWidth(600)
         self.board = QLabel()
         self.board.setPixmap(pixmap1)
@@ -43,7 +47,7 @@ class Window(QMainWindow):
         button2 = QPushButton('Solve', self)
         button2.setToolTip('Press this button to solve the 8 queens problem')
         button2.setFixedSize(150, 25)
-        #button2.clicked.connect(self.solve)
+        button2.clicked.connect(self.solve)
 
         #create layout with only the chessboard
         layout_box = QVBoxLayout(self.widget)
@@ -60,17 +64,35 @@ class Window(QMainWindow):
         self.queens_counter = 0
         self.pre_create_queens()
         self.show_board()
-
-        #show steps - still need fixing
-        for i in list(queens[0]):
-            self.set_queen_at(i)
-            self.show_board()
                       
+    def solve(self):
+        if self.queens:
+            for i in self.queens:
+                self.set_queen_at(i - 1)
+                self.show_board()
+                QtTest.QTest.qWait(1000)
+        else:
+            print("╔═══════════════════════════╗")
+            print("║A* cannot find any solution║")
+            print("╚═══════════════════════════╝")
 
     def import_queens(self): 
-        with open(QFileDialog().getOpenFileName(self, 'Open File', '', 'Text Files (*.txt)')[0], "r") as file: 
+        with open(QFileDialog().getOpenFileName(self, 'Open File', '..\\', 'Text Files (*.txt)')[0], "r") as file: 
             file.readline()
-            [(self.set_queen_at([*map(int, q.split(", "))][0]*8 + [*map(int, q.split(", "))][1])) for q in file.readline().strip()[1:-1].split(") (")]
+            #queens_pos = [([*map(int, q.split(", "))][0]*8 + [*map(int, q.split(", "))][1]) for q in file.readline().strip()[1:-1].split(") (")]
+            raw = file.readline()
+            queens_pos = []
+            for i in raw.strip()[1:-1].split(") ("):
+                tmp = [*map(int, i.split(", "))]
+                queens_pos += [tmp]
+            astar = A_star(queens_pos)
+            self.queens = astar.solve()
+            
+            for i in queens_pos:
+                i = i[0]*8 + i[1]
+                self.set_queen_at(i)
+                self.show_board()
+                #QtTest.QTest.qWait(1000)
 
     def show_board(self):
         self.show()
@@ -80,14 +102,14 @@ class Window(QMainWindow):
         for i in range(8):
             self.queens_black[i] = QLabel(self.widget)
             self.queens_black[i].setFixedSize(0, 0)
-            self.queens_black[i].setPixmap(QPixmap('queen_black.png').scaledToWidth(75))
+            self.queens_black[i].setPixmap(QPixmap('..\\resource\\queen_black.png').scaledToWidth(75))
             self.queens_black[i].move(0, 0)
         
         self.queens_white = [0]*8
         for i in range(8):
             self.queens_white[i] = QLabel(self.widget)
             self.queens_white[i].setFixedSize(0, 0)
-            self.queens_white[i].setPixmap(QPixmap('queen_white.png').scaledToWidth(75))
+            self.queens_white[i].setPixmap(QPixmap('..\\resource\\queen_white.png').scaledToWidth(75))
             self.queens_white[i].move(0, 0)
 
     def set_queen_at(self, position):
@@ -103,14 +125,10 @@ class Window(QMainWindow):
         self.queens_counter += 1
 
 class UI:
-    def __init__(self, *queens):
+    def __init__(self):
         self.app = QApplication(sys.argv)
-        self.window = Window(queens)
+        self.window = Window()
         self.app.exec_()
-
-    def set_queen_at(self, position):
-        self.window.set_queen_at(position)
-        self.window.show_board()
         
 if __name__ == '__main__':
-    ui = UI(62, 25)
+    ui = UI()
