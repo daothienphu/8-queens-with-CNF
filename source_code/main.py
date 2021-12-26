@@ -10,8 +10,11 @@ def main():
             print("\nExecuting task c:")
             point = [*map(int, input("Cordinates of point to test CNF: ").split())]
             point = point[0]*8 + point[1]
-            cnf = generate_cnf(8, verbose)
+            #old
+            cnf = generate_cnf(point)
             print("\nCNF:", format_cnf([get_restrictions_from_input(point, cnf)]))
+            #new 
+            #print("\nCNF:", format_cnf([generate_cnf(point)]))
             print("\nDone task c.\n\n")
         elif task == "d":
             print("\nExecuting level 1 of task d:")
