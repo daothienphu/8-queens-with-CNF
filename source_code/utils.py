@@ -3,21 +3,11 @@ from typing import List
 from pysat.formula import CNF
 from pysat.solvers import Lingeling
 
-def generate_cnf(size, verbose=False):
-    #input = 4 (0, 3)
-    #-27 or ((-28)and(-26))
-    #(-27 and -28) or (-27 and -26) 
-    #output = [[-27, -28], [-27, -26]]
-    restrictions = []
-    for i in range(size*size):
-        current_restriction = [(i+1)* -1]
-        for j in range(size*size):
-            if (i!=j)and((j % size == i %size) or (j // size == i // size) or (abs(i//size-j//size)==abs(i%size-j%size))):
-                current_restriction.append((j+1)*-1)
-        restrictions.append(current_restriction)
-    if verbose:
-        for i in restrictions:
-            print(i)
+def generate_cnf(input):
+    restrictions=[]
+    for j in range(8*8):
+            if (input!=j)and((j % 8 == input %8) or (j // 8 == input // 8) or (abs(input//8-j//8)==abs(input%8-j%8))):
+                restrictions.append([-1*(input+1),(j+1)*-1])
     return restrictions
 
 def get_restrictions_from_input(input,restrictions):
