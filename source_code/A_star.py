@@ -97,7 +97,9 @@ class A_star:
         while frontier_priority_queue:
             first = frontier_priority_queue.pop(0)  
             if first['pairs'] == 8 and first['unplaced_queens'] == 0: #
+                solution = first['seqs']
                 break
+            
             nums = list(avail_row_idx) 
             seqs = first['seqs']
             print(seqs)
