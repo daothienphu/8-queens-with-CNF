@@ -1,6 +1,5 @@
 import random
 import numpy as np
-import tensorflow as tf
 import math
 # with open("input.txt", "r") as file: 
 #     m = int(file.readline())
@@ -87,10 +86,14 @@ class A_star:
 
         avail_row_idx = [i  for i in range(len(cols)) if cols[i] == 0]
         print(diagonal_main)
-        decoded = tf.argmax(table, axis=1)
+        #decoded = tf.argmax(table, axis=1)
 
-        decoded = np.array(decoded)
+        decoded= [0]*8
+        for pos in self.queens_pos:
+            decoded[pos[0]]= pos[1 ]+1
+        #decoded = np.array(decoded)
         SEQS= list(decoded)
+        
         frontier_priority_queue = [{'unplaced_queens':8, 'pairs':28+8, 'seqs':SEQS}] # The initial state is 8 zeros, which means that there are no queens on the chessboard; g(n) = the number of queens that have not been placed well, h(n) = the logarithm of queens attacking each other, and h(n)=28, g(n)=8
         solution = []
         flag = 0 # The representative has not found a solution
