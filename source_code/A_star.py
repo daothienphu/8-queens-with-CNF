@@ -132,4 +132,5 @@ class A_star:
             self.display_board(solution)
             return solution2[len(self.queens_pos):]
         else:
-            print('Algorithm failed, no solution found')
+            return []
+            #print('Algorithm failed, no solution found')
