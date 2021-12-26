@@ -13,7 +13,7 @@ def generate_cnf(input):
 def get_restrictions_from_input(input,restrictions):
     return restrictions[input-1]
 
-def format_cnf(cnfs):
+def format_cnf(cnfs, haha=False):
     res = ''
     for i in cnfs:
         tmp = ''
@@ -25,7 +25,12 @@ def format_cnf(cnfs):
             if '-' in j:
                 tmp += ')'
             tmp += ' ∨ '
-        res += tmp[:-3] + ' ∧ '
+        if haha:
+            tmp = '(' + tmp[:-3] + ')'
+        if haha:
+            res += tmp + ' ∧ '
+        else:
+            res += tmp[:-2] + ' ∧ '
     return res[:-3]
 
 def print_board_console(queens):

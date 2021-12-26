@@ -11,16 +11,16 @@ def main():
             point = [*map(int, input("Cordinates of point to test CNF: ").split())]
             point = point[0]*8 + point[1]
             #old
-            cnf = generate_cnf(point)
-            print("\nCNF:", format_cnf([get_restrictions_from_input(point, cnf)]))
+            # cnf = generate_cnf(point)
+            # print("\nCNF:", format_cnf([get_restrictions_from_input(point, cnf)]))
             #new 
-            #print("\nCNF:", format_cnf([generate_cnf(point)]))
+            print("\nCNF:", format_cnf(generate_cnf(point), True))
             print("\nDone task c.\n\n")
         elif task == "d":
             print("\nExecuting level 1 of task d:")
             cnfs_1 = generate_cnf_level_1(8,verbose=verbose)
             print("Generated CNF clauses:")
-            print(format_cnf(cnfs_1), end="\n\n\n")
+            print(format_cnf(cnfs_1, True), end="\n\n\n")
             cnf_and_queens = find_satisfied_set(cnfs_1)
             print("Satisfied set of queens: ", cnf_and_queens[1])
             print_board_console(cnf_and_queens[1])
@@ -30,7 +30,7 @@ def main():
             print("\nExecuting level 2 of task d:")
             cnfs_2 = generate_cnf_level_2(8,verbose=verbose)
             print("Generated CNF clauses:")
-            print(format_cnf(cnfs_2), end="\n\n\n")
+            print(format_cnf(cnfs_2, True), end="\n\n\n")
             cnf_and_queens_2 = find_satisfied_set(cnfs_2)
             print("Satisfied set of queens: ", cnf_and_queens_2[1])
             print_board_console(cnf_and_queens_2[1])
