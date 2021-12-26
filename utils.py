@@ -4,7 +4,13 @@ from pysat.formula import CNF
 from pysat.solvers import Lingeling
 
 def generate_cnf_level_2(size, verbose=False):
-    restrictions = [[i for i in range(1,size*size+1)]]
+    restrictions = []
+    for i in range(size):
+        current=[i for i in range(i*8+1,i*8+9)]
+        restrictions.append(current)
+    for i in range(size):
+        current=[j+1 for j in range(size*size) if (j-i)%size==0]
+        restrictions.append(current)
     for i in range(size*size):
         for j in range(size*size):
             if (i!=j)and((j % size == i %size) or (j // size == i // size) or (abs(i//size-j//size)==abs(i%size-j%size))):
