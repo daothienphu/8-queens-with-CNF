@@ -71,7 +71,7 @@ class A_star:
             for j in i[1:]:
                 print(j, ' ', end="") 
             print() 
-        print('The number of queens to attack is ' + str(self.attacked_queens_pairs(seqs)) + ", f(n)= " +str(self.attacked_queens_pairs(seqs)+ self.next_row_invalids(seqs)))
+        print('The number of queens to attack is ' + str(self.attacked_queens_pairs(seqs)) + ", f(n)= " +str(8 +  self.attacked_queens_pairs(seqs)+ self.next_row_invalids(seqs)))
     
     def solve(self):
         rows = [0] * 8
@@ -91,13 +91,13 @@ class A_star:
         for pos in self.queens_pos:
              decoded[pos[0]]= pos[1 ]+1
         SEQS= list(decoded)
-        frontier_priority_queue = [{'unplaced_queens':8, 'pairs':28+8, 'seqs':SEQS}] 
+        frontier_priority_queue = [{'unplaced_queens':8, 'cost':28+8, 'seqs':SEQS}] 
         solution = []
         flag = 0 
 
         while frontier_priority_queue:
             first = frontier_priority_queue.pop(0) 
-            if first['pairs'] == 8 and first['unplaced_queens'] == 0:
+            if first['cost'] == 16 and first['unplaced_queens'] == 0:
                 solution = first['seqs']
                 flag = 1  # success
                 break
@@ -119,8 +119,8 @@ class A_star:
                         #print("     "+ str(nums))
                         #print("     "+ str(temp)+ " "+str(pos))
                         
-                        frontier_priority_queue.append({'unplaced_queens':temp_seqs.count(0), 'pairs':8*self.attacked_queens_pairs(temp_seqs) + self.next_row_invalids(temp_seqs),'seqs':temp_seqs})
-                frontier_priority_queue = sorted(frontier_priority_queue, key=lambda x:(x['pairs'], x['unplaced_queens']))
+                        frontier_priority_queue.append({'unplaced_queens':temp_seqs.count(0), 'cost':8*self.attacked_queens_pairs(temp_seqs) + self.next_row_invalids(temp_seqs) +8 -temp_seqs.count(0) ,'seqs':temp_seqs})
+                frontier_priority_queue = sorted(frontier_priority_queue, key=lambda x:(x['cost'], x['unplaced_queens']))
 
 
         if solution:
