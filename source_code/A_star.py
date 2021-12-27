@@ -91,7 +91,7 @@ class A_star:
         for pos in self.queens_pos:
              decoded[pos[0]]= pos[1 ]+1
         SEQS= list(decoded)
-        frontier_priority_queue = [{'unplaced_queens':8, 'cost':28+8, 'seqs':SEQS}] 
+        frontier_priority_queue = [{'unplaced_queens':8, 'cost':50, 'seqs':SEQS}] 
         solution = []
         flag = 0 
 
