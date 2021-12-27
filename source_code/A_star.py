@@ -103,10 +103,10 @@ class A_star:
                 break
             nums = list(avail_row_idx)  # List with elements 1-8
             seqs = first['seqs']
-            print(seqs)
+            #print(seqs)
             #print(nums)
             LIST = list(filter(lambda x: x == 0, seqs))
-            self.display_board(seqs)
+            #self.display_board(seqs)
             if(len(LIST)>0):
                 for j in range(len(nums)): 
                     pos = seqs.index(0)
