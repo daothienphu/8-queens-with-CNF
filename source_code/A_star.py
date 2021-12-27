@@ -86,7 +86,7 @@ class A_star:
                 diagonal_sub [pos[1]- pos[0] +7]=1
 
         avail_row_idx = [i  for i in range(len(cols)) if cols[i] == 0]
-        print(diagonal_main)
+        #print(diagonal_main)
         decoded= [0]*8
         for pos in self.queens_pos:
              decoded[pos[0]]= pos[1 ]+1
@@ -115,7 +115,7 @@ class A_star:
                     nums.remove(temp)
                     if ((diagonal_main[pos + temp ] ==0) & (diagonal_sub [temp- pos +7]==0) ):
                         temp_seqs[pos] = temp +1
-                        print("     "+ str(temp_seqs))
+                        #print("     "+ str(temp_seqs))
                         #print("     "+ str(nums))
                         #print("     "+ str(temp)+ " "+str(pos))
                         
