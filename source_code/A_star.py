@@ -71,7 +71,7 @@ class A_star:
             for j in i[1:]:
                 print(j, ' ', end="") 
             print() 
-        print('The number of queens to attack is' + str(self.attacked_queens_pairs(seqs)) + "  f(n)= " +str(self.attacked_queens_pairs(seqs)+ self.next_row_invalids(seqs)))
+        print('The number of queens to attack is ' + str(self.attacked_queens_pairs(seqs)) + ", f(n)= " +str(self.attacked_queens_pairs(seqs)+ self.next_row_invalids(seqs)))
     
     def solve(self):
         rows = [0] * 8
