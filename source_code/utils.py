@@ -1,4 +1,5 @@
 from random import randint, choice
+from time import _TimeTuple
 from typing import List
 from pysat.formula import CNF
 from pysat.solvers import Lingeling
